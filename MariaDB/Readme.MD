@@ -1,5 +1,13 @@
 
+![alt text](zimage.jpg)
+
+
 Welcome!
+
+MariaDB Database MySQL Essentials - Developer Practical Labs
+
+Master the Essentials of MariaDB MySQL Hands-On Practical Labs for Database Developers Server Infrastructure Deployment
+
 
 Tips/Tricks/Notes/Commands URL Link: https://github.com/nimaxnimax/Udemy_Database
 
