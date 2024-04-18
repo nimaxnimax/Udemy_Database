@@ -98,6 +98,214 @@ mysql -u root -p
 This command will prompt you for the root password you set during installation and then log you into the MariaDB command-line interface.
 
 
+Example of a Bash script that connects to a MariaDB server running on Ubuntu and lists the databases:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+
+# Run the MySQL command to list databases
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "SHOW DATABASES;"
+```
+
+Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
+
+Save this script in a file (e.g., `show_databases.sh`), make it executable using `chmod +x show_databases.sh`, and then run it using `./show_databases.sh`. It will prompt you for the password and then display the list of databases.
+
+
+Example Bash script that prompts the user to input a database name, creates that database in MariaDB, and then shows the list of databases:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database to create: " DB_NAME
+
+# Run MySQL command to create the database
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE $DB_NAME;"
+
+# Show the list of databases
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "SHOW DATABASES;"
+```
+
+Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
+
+Save this script in a file (e.g., `create_and_show_databases.sh`), make it executable using `chmod +x create_and_show_databases.sh`, and then run it using `./create_and_show_databases.sh`. It will prompt you to enter a database name, create that database in MariaDB, and then display the list of databases.
+
+
+Bash script that prompts the user to input a database name. If the database doesn't exist, it creates it. Then it prompts the user to input a table name and creates a sample table with that name in the specified database. Finally, it shows the list of tables in that database:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Check if the database exists
+DB_EXISTS=$(mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='$DB_NAME';" -sN)
+
+# If the database doesn't exist, create it
+if [ -z "$DB_EXISTS" ]; then
+    mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE $DB_NAME;"
+    echo "Database '$DB_NAME' created."
+else
+    echo "Database '$DB_NAME' already exists."
+fi
+
+# Prompt user for table name
+read -p "Enter the name of the table: " TABLE_NAME
+
+# Create a sample table in the specified database
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE $TABLE_NAME (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50));"
+
+echo "Table '$TABLE_NAME' created."
+
+# Show the list of tables in the specified database
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SHOW TABLES;"
+```
+
+Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
+
+Save this script in a file (e.g., `create_database_and_table.sh`), make it executable using `chmod +x create_database_and_table.sh`, and then run it using `./create_database_and_table.sh`. It will prompt you to enter a database name and a table name, create the database and table if they don't exist, and then display the list of tables in the specified database.
+
+
+Bash script that prompts the user to input a database name and a table name. It then creates a sample table with the provided name in the specified database and inserts 10 random usernames into the table:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Prompt user for table name
+read -p "Enter the name of the table: " TABLE_NAME
+
+# Create database if it doesn't exist
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+echo "Database '$DB_NAME' created or already exists."
+
+# Create a sample table in the specified database
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS $TABLE_NAME (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50));"
+echo "Table '$TABLE_NAME' created or already exists."
+
+# Generate 10 random usernames and insert into the table
+for ((i=1; i<=10; i++))
+do
+    RANDOM_USERNAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+    mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO $TABLE_NAME (username) VALUES ('$RANDOM_USERNAME');"
+done
+
+echo "Sample usernames inserted into the '$TABLE_NAME' table."
+```
+
+Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
+
+Save this script in a file (e.g., `create_sample_table_and_insert_data.sh`), make it executable using `chmod +x create_sample_table_and_insert_data.sh`, and then run it using `./create_sample_table_and_insert_data.sh`. It will prompt you to enter a database name and a table name, create them if they don't exist, create a sample table, insert 10 random usernames into the table, and display appropriate messages along the way.
+
+
+Bash script that prompts the user to input a database name and a table name. It then executes a `SELECT * FROM table` query on the specified table in the specified database and displays the result:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Prompt user for table name
+read -p "Enter the name of the table: " TABLE_NAME
+
+# Execute SELECT * FROM table query and display result
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
+```
+
+Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
+
+Save this script in a file (e.g., `select_from_table.sh`), make it executable using `chmod +x select_from_table.sh`, and then run it using `./select_from_table.sh`. It will prompt you to enter a database name and a table name, execute the `SELECT * FROM table` query on the specified table in the specified database, and display the result.
+
+
+Bash script that prompts the user to input a database name and a table name. It then executes a `SELECT COUNT(*)` query on the specified table in the specified database to count the number of rows and displays the result:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Prompt user for table name
+read -p "Enter the name of the table: " TABLE_NAME
+
+# Execute SELECT COUNT(*) FROM table query and display result
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM $TABLE_NAME;"
+```
+
+Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
+
+Save this script in a file (e.g., `count_rows_in_table.sh`), make it executable using `chmod +x count_rows_in_table.sh`, and then run it using `./count_rows_in_table.sh`. It will prompt you to enter a database name and a table name, execute the `SELECT COUNT(*)` query on the specified table in the specified database, and display the result.
+
+
+Bash script that prompts the user to input a database name, a username, and a password. It then creates the specified database and grants all privileges on that database to the specified user with the provided password:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_ROOT_USER="root"
+DB_ROOT_PASS="your_root_password"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Prompt user for username
+read -p "Enter the username for database access: " DB_USER
+
+# Prompt user for password
+read -s -p "Enter the password for the user: " DB_USER_PASS
+echo
+
+# Create database
+mysql -u"$DB_ROOT_USER" -p"$DB_ROOT_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+echo "Database '$DB_NAME' created or already exists."
+
+# Grant all privileges on the database to the user
+mysql -u"$DB_ROOT_USER" -p"$DB_ROOT_PASS" -h"$DB_HOST" -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS';"
+echo "Privileges granted to user '$DB_USER' on database '$DB_NAME'."
+```
+
+Replace `"your_root_password"` with your actual MariaDB root password.
+
+Save this script in a file (e.g., `create_database_and_grant_permissions.sh`), make it executable using `chmod +x create_database_and_grant_permissions.sh`, and then run it using `./create_database_and_grant_permissions.sh`. It will prompt you to enter a database name, a username, and a password. Then it will create the specified database and grant all privileges on that database to the specified user with the provided password.
+
+
 MariaDB Examples
 
 1. **Creating a Database:**
