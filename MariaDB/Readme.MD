@@ -407,6 +407,72 @@ mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department,
 This script will insert random data into the table, display the total number of rows, and then show the table grouped by department along with the count of payments for each department.
 
 
+Bash script that demonstrates various MySQL operations such as creating a database, creating a table, inserting data, updating data, selecting data, and dropping the table and database:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+DB_NAME="testdb"
+TABLE_NAME="test_table"
+
+# Create database if it doesn't exist
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+echo "Database '$DB_NAME' created or already exists."
+
+# Use the database
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "USE $DB_NAME;"
+
+# Create table if it doesn't exist
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS $TABLE_NAME (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    age INT
+);"
+echo "Table '$TABLE_NAME' created or already exists."
+
+# Insert data into the table
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO $TABLE_NAME (name, age) VALUES ('Alice', 30), ('Bob', 25), ('Charlie', 35);"
+echo "Data inserted into the '$TABLE_NAME' table."
+
+# Select data from the table
+echo "Selecting data from the '$TABLE_NAME' table:"
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
+
+# Update data in the table
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "UPDATE $TABLE_NAME SET age = 40 WHERE name = 'Bob';"
+echo "Data updated in the '$TABLE_NAME' table."
+
+# Select data after updating
+echo "Selecting data from the '$TABLE_NAME' table after updating:"
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
+
+# Drop the table
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "DROP TABLE $TABLE_NAME;"
+echo "Table '$TABLE_NAME' dropped."
+
+# Drop the database
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "DROP DATABASE $DB_NAME;"
+echo "Database '$DB_NAME' dropped."
+```
+
+Replace `"your_username"` and `"your_password"` with your actual MariaDB username and password.
+
+Save this script in a file (e.g., `mysql_operations.sh`), make it executable using `chmod +x mysql_operations.sh`, and then run it using `./mysql_operations.sh`. It will perform the following operations:
+
+1. Create a database named "testdb" if it doesn't exist.
+2. Create a table named "test_table" if it doesn't exist.
+3. Insert data into the table.
+4. Select and display the data from the table.
+5. Update the data in the table.
+6. Select and display the updated data from the table.
+7. Drop the table.
+8. Drop the database.
+
+
 MariaDB Examples
 
 1. **Creating a Database:**
