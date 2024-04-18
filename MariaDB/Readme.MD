@@ -306,6 +306,107 @@ Replace `"your_root_password"` with your actual MariaDB root password.
 Save this script in a file (e.g., `create_database_and_grant_permissions.sh`), make it executable using `chmod +x create_database_and_grant_permissions.sh`, and then run it using `./create_database_and_grant_permissions.sh`. It will prompt you to enter a database name, a username, and a password. Then it will create the specified database and grant all privileges on that database to the specified user with the provided password.
 
 
+Bash script that creates a database named "testdb" and a table named "info" with an auto-incremented ID field, a payment field for dollars, and name and department fields. It then inserts randomly generated data for at least 50 persons, with random names, departments (accounting, sales, or marketing), and payment amounts between $1000 and $5000. Finally, it shows the count of rows in the table:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+DB_NAME="testdb"
+
+# Create database if it doesn't exist
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+echo "Database '$DB_NAME' created or already exists."
+
+# Create table 'info' with required fields
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(50),
+    payment INT
+);"
+echo "Table 'info' created or already exists."
+
+# Generate random data and insert into the table
+for ((i=1; i<=50; i++))
+do
+    RANDOM_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z ' | fold -w 8 | head -n 1)
+    RANDOM_DEPARTMENT=$(( ( RANDOM % 3 )  + 1 ))
+    RANDOM_PAYMENT=$(( ( RANDOM % 4001 )  + 1000 ))
+    case $RANDOM_DEPARTMENT in
+        1) DEPARTMENT="Accounting";;
+        2) DEPARTMENT="Sales";;
+        3) DEPARTMENT="Marketing";;
+    esac
+    mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO info (name, department, payment) VALUES ('$RANDOM_NAME', '$DEPARTMENT', '$RANDOM_PAYMENT');"
+done
+
+echo "Data inserted into the 'info' table."
+
+# Show the count of rows in the table
+COUNT=$(mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM info;" --skip-column-names)
+echo "Total rows in the 'info' table: $COUNT"
+```
+
+Replace `"your_username"` and `"your_password"` with your actual MariaDB username and password.
+
+Save this script in a file (e.g., `populate_database.sh`), make it executable using `chmod +x populate_database.sh`, and then run it using `./populate_database.sh`. It will create the "testdb" database, the "info" table with the specified fields, insert random data for at least 50 persons, and display the count of rows in the table.
+
+
+Script to show the table grouped by department and count the total payments for each department:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_PASS="your_password"
+DB_HOST="localhost"
+DB_NAME="testdb"
+
+# Create database if it doesn't exist
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+echo "Database '$DB_NAME' created or already exists."
+
+# Create table 'info' with required fields
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS info (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(50),
+    payment INT
+);"
+echo "Table 'info' created or already exists."
+
+# Generate random data and insert into the table
+for ((i=1; i<=50; i++))
+do
+    RANDOM_NAME=$(cat /dev/urandom | tr -dc 'a-zA-Z ' | fold -w 8 | head -n 1)
+    RANDOM_DEPARTMENT=$(( ( RANDOM % 3 )  + 1 ))
+    RANDOM_PAYMENT=$(( ( RANDOM % 4001 )  + 1000 ))
+    case $RANDOM_DEPARTMENT in
+        1) DEPARTMENT="Accounting";;
+        2) DEPARTMENT="Sales";;
+        3) DEPARTMENT="Marketing";;
+    esac
+    mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO info (name, department, payment) VALUES ('$RANDOM_NAME', '$DEPARTMENT', '$RANDOM_PAYMENT');"
+done
+
+echo "Data inserted into the 'info' table."
+
+# Show the count of rows in the table
+COUNT=$(mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM info;" --skip-column-names)
+echo "Total rows in the 'info' table: $COUNT"
+
+# Show table grouped by department and count payment
+mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, COUNT(*) AS count_payment FROM info GROUP BY department;"
+```
+
+This script will insert random data into the table, display the total number of rows, and then show the table grouped by department along with the count of payments for each department.
+
+
 MariaDB Examples
 
 1. **Creating a Database:**
