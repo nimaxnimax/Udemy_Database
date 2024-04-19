@@ -332,6 +332,46 @@ Save this script in a file (e.g., `select_from_table.sh`), make it executable us
 
 **********
 
+Script that first shows the databases, then prompts for the database name, shows tables in that database, prompts for a table name, and finally prompts for a column name and selects that column:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="root"
+DB_HOST="localhost"
+
+# Show available databases
+echo "Available databases:"
+mysql -u"$DB_USER" -h"$DB_HOST" -e "SHOW DATABASES;"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Show tables in the selected database
+echo "Tables in $DB_NAME:"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SHOW TABLES;"
+
+# Prompt user for table name
+read -p "Enter the name of the table: " TABLE_NAME
+
+# Show columns in the selected table
+echo "Columns in $TABLE_NAME:"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "DESCRIBE $TABLE_NAME;"
+
+# Prompt user for column name
+read -p "Enter the name of the column: " COLUMN_NAME
+
+# Select specified column from the table
+echo "Selected information from $COLUMN_NAME column in $TABLE_NAME:"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT $COLUMN_NAME FROM $TABLE_NAME;"
+```
+
+This script first displays the available databases, then prompts the user to select one. After that, it lists the tables within the chosen database, prompts for a table selection, lists the columns in that table, and finally, asks for a column selection and displays the information from that column.
+
+
+**********
+
 Bash script that prompts the user to input a database name and a table name. It then executes a `SELECT COUNT(*)` query on the specified table in the specified database to count the number of rows and displays the result:
 
 ```bash
