@@ -1,6 +1,8 @@
 
+
 ![alt text](zimage.jpg)
 
+**********
 
 Welcome!
 
@@ -9,10 +11,14 @@ MariaDB Database MySQL Essentials - Developer Practical Labs
 Master the Essentials of MariaDB MySQL Hands-On Practical Labs for Database Developers Server Infrastructure Deployment
 
 
+**********
+
 Tips/Tricks/Notes/Commands URL Link: https://github.com/nimaxnimax/Udemy_Database
 
 Instructor & Courses >> https://www.udemy.com/user/adrian-fischer-infotech/
 
+
+**********
 
 MariaDB
 
@@ -26,6 +32,8 @@ MariaDB
 - It is known for its high performance, scalability, and reliability, making it suitable for both small-scale and enterprise-level applications.
 - MariaDB is actively developed and maintained by the MariaDB Foundation and a community of developers worldwide.
 
+
+**********
 
 Advantages of using MariaDB:
 
@@ -47,6 +55,8 @@ Advantages of using MariaDB:
 
 - **Active Development:** MariaDB is actively developed and maintained by the MariaDB Foundation and a large community of contributors. This ensures ongoing improvements, updates, and support for new technologies and standards.
 
+
+**********
 
 MariaDB
 
