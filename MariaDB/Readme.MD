@@ -314,8 +314,7 @@ Bash script that prompts the user to input a database name and a table name. It 
 #!/bin/bash
 
 # MariaDB connection details
-DB_USER="your_username"
-DB_PASS="your_password"
+DB_USER="root"
 DB_HOST="localhost"
 
 # Prompt user for database name
@@ -325,10 +324,8 @@ read -p "Enter the name of the database: " DB_NAME
 read -p "Enter the name of the table: " TABLE_NAME
 
 # Execute SELECT * FROM table query and display result
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
 ```
-
-Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
 
 Save this script in a file (e.g., `select_from_table.sh`), make it executable using `chmod +x select_from_table.sh`, and then run it using `./select_from_table.sh`. It will prompt you to enter a database name and a table name, execute the `SELECT * FROM table` query on the specified table in the specified database, and display the result.
 
