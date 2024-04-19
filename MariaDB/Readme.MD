@@ -250,6 +250,64 @@ Save this script in a file (e.g., `create_sample_table_and_insert_data.sh`), mak
 
 **********
 
+If you want to avoid being prompted for the password each time, you can set the password directly in the script. However, having the password in plaintext in a script is not recommended for security reasons. Instead, you can use a `.my.cnf` file to store your credentials securely.
+
+1. **Create a `.my.cnf` file**: In your home directory (`~`), create a file named `.my.cnf` if it doesn't exist.
+
+2. **Add MySQL/MariaDB credentials**: Open the `.my.cnf` file and add the following lines, replacing `your_username` and `your_password` with your actual credentials:
+
+    ```
+    [client]
+    user=your_username
+    password=your_password
+    ```
+
+3. **Secure the file**: Make sure only you have read access to this file:
+
+    ```
+    chmod 600 ~/.my.cnf
+    ```
+
+4. **Modify your script**: In your script, remove the lines where you prompt for the password and directly use the credentials from the `.my.cnf` file.
+
+Your modified script would look like this:
+
+```bash
+#!/bin/bash
+
+# MariaDB connection details
+DB_USER="your_username"
+DB_HOST="localhost"
+
+# Prompt user for database name
+read -p "Enter the name of the database: " DB_NAME
+
+# Prompt user for table name
+read -p "Enter the name of the table: " TABLE_NAME
+
+# Create database if it doesn't exist
+mysql -u"$DB_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+echo "Database '$DB_NAME' created or already exists."
+
+# Create a sample table in the specified database
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS $TABLE_NAME (id INT AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50));"
+echo "Table '$TABLE_NAME' created or already exists."
+
+# Generate 10 random usernames and insert into the table
+for ((i=1; i<=10; i++))
+do
+    RANDOM_USERNAME=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 8 | head -n 1)
+    mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO $TABLE_NAME (username) VALUES ('$RANDOM_USERNAME');"
+done
+
+echo "Sample usernames inserted into the '$TABLE_NAME' table."
+```
+
+With this setup, your script will use the credentials from the `.my.cnf` file, and you won't be prompted for the password each time you run the script.
+
+
+**********
+
 Bash script that prompts the user to input a database name and a table name. It then executes a `SELECT * FROM table` query on the specified table in the specified database and displays the result:
 
 ```bash
