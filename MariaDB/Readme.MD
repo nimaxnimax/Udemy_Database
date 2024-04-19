@@ -544,7 +544,7 @@ mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, COUNT(*) AS 
 # Show table grouped by department and calculate payments
 mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, SUM(payment) AS total_payment FROM testdb.info GROUP BY department;"
 
-# Show table grouped by department and calculate payments
+# Show table and calculate payments
 mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT SUM(payment) AS total_payment FROM testdb.info;"
 
 ```
