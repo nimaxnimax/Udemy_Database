@@ -164,6 +164,8 @@ Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual
 Save this script in a file (e.g., `create_and_show_databases.sh`), make it executable using `chmod +x create_and_show_databases.sh`, and then run it using `./create_and_show_databases.sh`. It will prompt you to enter a database name, create that database in MariaDB, and then display the list of databases.
 
 
+**********
+
 Bash script that prompts the user to input a database name. If the database doesn't exist, it creates it. Then it prompts the user to input a table name and creates a sample table with that name in the specified database. Finally, it shows the list of tables in that database:
 
 ```bash
