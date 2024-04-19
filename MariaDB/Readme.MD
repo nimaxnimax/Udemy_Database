@@ -207,6 +207,8 @@ Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual
 Save this script in a file (e.g., `create_database_and_table.sh`), make it executable using `chmod +x create_database_and_table.sh`, and then run it using `./create_database_and_table.sh`. It will prompt you to enter a database name and a table name, create the database and table if they don't exist, and then display the list of tables in the specified database.
 
 
+**********
+
 Bash script that prompts the user to input a database name and a table name. It then creates a sample table with the provided name in the specified database and inserts 10 random usernames into the table:
 
 ```bash
@@ -246,6 +248,8 @@ Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual
 Save this script in a file (e.g., `create_sample_table_and_insert_data.sh`), make it executable using `chmod +x create_sample_table_and_insert_data.sh`, and then run it using `./create_sample_table_and_insert_data.sh`. It will prompt you to enter a database name and a table name, create them if they don't exist, create a sample table, insert 10 random usernames into the table, and display appropriate messages along the way.
 
 
+**********
+
 Bash script that prompts the user to input a database name and a table name. It then executes a `SELECT * FROM table` query on the specified table in the specified database and displays the result:
 
 ```bash
@@ -271,6 +275,8 @@ Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual
 Save this script in a file (e.g., `select_from_table.sh`), make it executable using `chmod +x select_from_table.sh`, and then run it using `./select_from_table.sh`. It will prompt you to enter a database name and a table name, execute the `SELECT * FROM table` query on the specified table in the specified database, and display the result.
 
 
+**********
+
 Bash script that prompts the user to input a database name and a table name. It then executes a `SELECT COUNT(*)` query on the specified table in the specified database to count the number of rows and displays the result:
 
 ```bash
@@ -295,6 +301,8 @@ Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual
 
 Save this script in a file (e.g., `count_rows_in_table.sh`), make it executable using `chmod +x count_rows_in_table.sh`, and then run it using `./count_rows_in_table.sh`. It will prompt you to enter a database name and a table name, execute the `SELECT COUNT(*)` query on the specified table in the specified database, and display the result.
 
+
+**********
 
 Bash script that prompts the user to input a database name, a username, and a password. It then creates the specified database and grants all privileges on that database to the specified user with the provided password:
 
@@ -329,6 +337,8 @@ Replace `"your_root_password"` with your actual MariaDB root password.
 
 Save this script in a file (e.g., `create_database_and_grant_permissions.sh`), make it executable using `chmod +x create_database_and_grant_permissions.sh`, and then run it using `./create_database_and_grant_permissions.sh`. It will prompt you to enter a database name, a username, and a password. Then it will create the specified database and grant all privileges on that database to the specified user with the provided password.
 
+
+**********
 
 Bash script that creates a database named "testdb" and a table named "info" with an auto-incremented ID field, a payment field for dollars, and name and department fields. It then inserts randomly generated data for at least 50 persons, with random names, departments (accounting, sales, or marketing), and payment amounts between $1000 and $5000. Finally, it shows the count of rows in the table:
 
@@ -380,6 +390,8 @@ Replace `"your_username"` and `"your_password"` with your actual MariaDB usernam
 Save this script in a file (e.g., `populate_database.sh`), make it executable using `chmod +x populate_database.sh`, and then run it using `./populate_database.sh`. It will create the "testdb" database, the "info" table with the specified fields, insert random data for at least 50 persons, and display the count of rows in the table.
 
 
+**********
+
 Script to show the table grouped by department and count the total payments for each department:
 
 ```bash
@@ -430,6 +442,8 @@ mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department,
 
 This script will insert random data into the table, display the total number of rows, and then show the table grouped by department along with the count of payments for each department.
 
+
+**********
 
 Bash script that demonstrates various MySQL operations such as creating a database, creating a table, inserting data, updating data, selecting data, and dropping the table and database:
 
@@ -496,6 +510,8 @@ Save this script in a file (e.g., `mysql_operations.sh`), make it executable usi
 7. Drop the table.
 8. Drop the database.
 
+
+**********
 
 MariaDB Examples
 
