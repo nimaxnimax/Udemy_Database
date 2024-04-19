@@ -116,6 +116,8 @@ mysql -u root -p
 This command will prompt you for the root password you set during installation and then log you into the MariaDB command-line interface.
 
 
+**********
+
 Example of a Bash script that connects to a MariaDB server running on Ubuntu and lists the databases:
 
 ```bash
