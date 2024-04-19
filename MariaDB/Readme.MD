@@ -540,6 +540,13 @@ echo "Total rows in the 'info' table: $COUNT"
 
 # Show table grouped by department and count payment
 mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, COUNT(*) AS count_payment FROM info GROUP BY department;"
+
+# Show table grouped by department and calculate payments
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, SUM(payment) AS total_payment FROM testdb.info GROUP BY department;"
+
+# Show table grouped by department and calculate payments
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT SUM(payment) AS total_payment FROM testdb.info;"
+
 ```
 
 This script will insert random data into the table, display the total number of rows, and then show the table grouped by department along with the count of payments for each department.
