@@ -407,26 +407,37 @@ Bash script that prompts the user to input a database name, a username, and a pa
 DB_ROOT_USER="root"
 DB_HOST="localhost"
 
+# Function to handle errors
+handle_error() {
+    echo "Error: $1"
+    exit 1
+}
+
 # Prompt user for database name
 read -p "Enter the name of the database: " DB_NAME
+[[ -z $DB_NAME ]] && handle_error "Database name cannot be empty"
 
 # Prompt user for username
 read -p "Enter the username for database access: " DB_USER
+[[ -z $DB_USER ]] && handle_error "Username cannot be empty"
 
 # Prompt user for password
 read -s -p "Enter the password for the user: " DB_USER_PASS
 echo
+[[ -z $DB_USER_PASS ]] && handle_error "Password cannot be empty"
+
+# Create user
+mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS';" || handle_error "Failed to create user '$DB_USER'"
+echo "User '$DB_USER' created with password."
 
 # Create database
-mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;" || handle_error "Failed to create database '$DB_NAME'"
 echo "Database '$DB_NAME' created or already exists."
 
 # Grant all privileges on the database to the user
-mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS';"
+mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%';" || handle_error "Failed to grant privileges to user '$DB_USER'"
 echo "Privileges granted to user '$DB_USER' on database '$DB_NAME'."
 ```
-
-Replace `"your_root_password"` with your actual MariaDB root password.
 
 Save this script in a file (e.g., `create_database_and_grant_permissions.sh`), make it executable using `chmod +x create_database_and_grant_permissions.sh`, and then run it using `./create_database_and_grant_permissions.sh`. It will prompt you to enter a database name, a username, and a password. Then it will create the specified database and grant all privileges on that database to the specified user with the provided password.
 
