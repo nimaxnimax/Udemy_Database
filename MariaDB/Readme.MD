@@ -566,7 +566,7 @@ DB_NAME="testdb"
 TABLE_NAME="test_table"
 
 # Create database if it doesn't exist
-mysql -u"$DB_USER" h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 echo "Database '$DB_NAME' created or already exists."
 
 # Use the database
