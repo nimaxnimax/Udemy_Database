@@ -137,6 +137,8 @@ Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual
 Save this script in a file (e.g., `show_databases.sh`), make it executable using `chmod +x show_databases.sh`, and then run it using `./show_databases.sh`. It will prompt you for the password and then display the list of databases.
 
 
+**********
+
 Example Bash script that prompts the user to input a database name, creates that database in MariaDB, and then shows the list of databases:
 
 ```bash
