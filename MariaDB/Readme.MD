@@ -378,8 +378,7 @@ Bash script that prompts the user to input a database name and a table name. It 
 #!/bin/bash
 
 # MariaDB connection details
-DB_USER="your_username"
-DB_PASS="your_password"
+DB_USER="root"
 DB_HOST="localhost"
 
 # Prompt user for database name
@@ -389,7 +388,7 @@ read -p "Enter the name of the database: " DB_NAME
 read -p "Enter the name of the table: " TABLE_NAME
 
 # Execute SELECT COUNT(*) FROM table query and display result
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM $TABLE_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM $TABLE_NAME;"
 ```
 
 Replace `"your_username"`, `"your_password"`, and `"localhost"` with your actual MariaDB username, password, and host if they are different.
@@ -406,7 +405,6 @@ Bash script that prompts the user to input a database name, a username, and a pa
 
 # MariaDB connection details
 DB_ROOT_USER="root"
-DB_ROOT_PASS="your_root_password"
 DB_HOST="localhost"
 
 # Prompt user for database name
@@ -420,11 +418,11 @@ read -s -p "Enter the password for the user: " DB_USER_PASS
 echo
 
 # Create database
-mysql -u"$DB_ROOT_USER" -p"$DB_ROOT_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 echo "Database '$DB_NAME' created or already exists."
 
 # Grant all privileges on the database to the user
-mysql -u"$DB_ROOT_USER" -p"$DB_ROOT_PASS" -h"$DB_HOST" -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS';"
+mysql -u"$DB_ROOT_USER" -h"$DB_HOST" -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'%' IDENTIFIED BY '$DB_USER_PASS';"
 echo "Privileges granted to user '$DB_USER' on database '$DB_NAME'."
 ```
 
@@ -441,17 +439,16 @@ Bash script that creates a database named "testdb" and a table named "info" with
 #!/bin/bash
 
 # MariaDB connection details
-DB_USER="your_username"
-DB_PASS="your_password"
+DB_USER="root"
 DB_HOST="localhost"
 DB_NAME="testdb"
 
 # Create database if it doesn't exist
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 echo "Database '$DB_NAME' created or already exists."
 
 # Create table 'info' with required fields
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS info (
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS info (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
     department VARCHAR(50),
@@ -470,13 +467,13 @@ do
         2) DEPARTMENT="Sales";;
         3) DEPARTMENT="Marketing";;
     esac
-    mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO info (name, department, payment) VALUES ('$RANDOM_NAME', '$DEPARTMENT', '$RANDOM_PAYMENT');"
+    mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO info (name, department, payment) VALUES ('$RANDOM_NAME', '$DEPARTMENT', '$RANDOM_PAYMENT');"
 done
 
 echo "Data inserted into the 'info' table."
 
 # Show the count of rows in the table
-COUNT=$(mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM info;" --skip-column-names)
+COUNT=$(mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM info;" --skip-column-names)
 echo "Total rows in the 'info' table: $COUNT"
 ```
 
@@ -493,17 +490,16 @@ Script to show the table grouped by department and count the total payments for 
 #!/bin/bash
 
 # MariaDB connection details
-DB_USER="your_username"
-DB_PASS="your_password"
+DB_USER="root"
 DB_HOST="localhost"
 DB_NAME="testdb"
 
 # Create database if it doesn't exist
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 echo "Database '$DB_NAME' created or already exists."
 
 # Create table 'info' with required fields
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS info (
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS info (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
     department VARCHAR(50),
@@ -522,17 +518,17 @@ do
         2) DEPARTMENT="Sales";;
         3) DEPARTMENT="Marketing";;
     esac
-    mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO info (name, department, payment) VALUES ('$RANDOM_NAME', '$DEPARTMENT', '$RANDOM_PAYMENT');"
+    mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO info (name, department, payment) VALUES ('$RANDOM_NAME', '$DEPARTMENT', '$RANDOM_PAYMENT');"
 done
 
 echo "Data inserted into the 'info' table."
 
 # Show the count of rows in the table
-COUNT=$(mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM info;" --skip-column-names)
+COUNT=$(mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT COUNT(*) FROM info;" --skip-column-names)
 echo "Total rows in the 'info' table: $COUNT"
 
 # Show table grouped by department and count payment
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, COUNT(*) AS count_payment FROM info GROUP BY department;"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT department, COUNT(*) AS count_payment FROM info GROUP BY department;"
 ```
 
 This script will insert random data into the table, display the total number of rows, and then show the table grouped by department along with the count of payments for each department.
@@ -546,21 +542,20 @@ Bash script that demonstrates various MySQL operations such as creating a databa
 #!/bin/bash
 
 # MariaDB connection details
-DB_USER="your_username"
-DB_PASS="your_password"
+DB_USER="root"
 DB_HOST="localhost"
 DB_NAME="testdb"
 TABLE_NAME="test_table"
 
 # Create database if it doesn't exist
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+mysql -u"$DB_USER" h"$DB_HOST" -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 echo "Database '$DB_NAME' created or already exists."
 
 # Use the database
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "USE $DB_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -e "USE $DB_NAME;"
 
 # Create table if it doesn't exist
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS $TABLE_NAME (
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NOT EXISTS $TABLE_NAME (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
     age INT
@@ -568,27 +563,27 @@ mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "CREATE TABLE IF NO
 echo "Table '$TABLE_NAME' created or already exists."
 
 # Insert data into the table
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO $TABLE_NAME (name, age) VALUES ('Alice', 30), ('Bob', 25), ('Charlie', 35);"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "INSERT INTO $TABLE_NAME (name, age) VALUES ('Alice', 30), ('Bob', 25), ('Charlie', 35);"
 echo "Data inserted into the '$TABLE_NAME' table."
 
 # Select data from the table
 echo "Selecting data from the '$TABLE_NAME' table:"
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
 
 # Update data in the table
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "UPDATE $TABLE_NAME SET age = 40 WHERE name = 'Bob';"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "UPDATE $TABLE_NAME SET age = 40 WHERE name = 'Bob';"
 echo "Data updated in the '$TABLE_NAME' table."
 
 # Select data after updating
 echo "Selecting data from the '$TABLE_NAME' table after updating:"
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "SELECT * FROM $TABLE_NAME;"
 
 # Drop the table
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -D"$DB_NAME" -e "DROP TABLE $TABLE_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -D"$DB_NAME" -e "DROP TABLE $TABLE_NAME;"
 echo "Table '$TABLE_NAME' dropped."
 
 # Drop the database
-mysql -u"$DB_USER" -p"$DB_PASS" -h"$DB_HOST" -e "DROP DATABASE $DB_NAME;"
+mysql -u"$DB_USER" -h"$DB_HOST" -e "DROP DATABASE $DB_NAME;"
 echo "Database '$DB_NAME' dropped."
 ```
 
